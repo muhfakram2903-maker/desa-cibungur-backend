@@ -12,8 +12,11 @@ class PengumumanController extends Controller
     public function index(Request $request)
     {
         $pengumuman = Pengumuman::where(function ($q) {
-            $q->whereNull('expired_at')->orWhere('expired_at', '>=', now());
-        })->latest()->paginate($request->get('per_page', 10));
+            $q->whereNull('tanggal_expired')->orWhere('tanggal_expired', '>=', now());
+        })
+        ->where('status', 'published')
+        ->latest('created_at')
+        ->paginate($request->get('per_page', 10));
 
         return PengumumanResource::collection($pengumuman);
     }

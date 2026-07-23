@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class ApbdesItem extends Model
 {
     protected $table = 'apbdes_item';
-    protected $guarded = [];
+    protected $guarded = ['id'];
+
+    public function tahun()
+    {
+        return $this->belongsTo(ApbdesTahun::class, 'tahun_id');
+    }
 }

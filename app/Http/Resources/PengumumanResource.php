@@ -12,11 +12,11 @@ class PengumumanResource extends JsonResource
         return [
             'id' => $this->id,
             'judul' => $this->judul,
-            'slug' => $this->slug,
-            'isi' => $this->isi,
-            'file_lampiran_url' => $this->file_lampiran ? asset('storage/' . $this->file_lampiran) : null,
+            'konten' => $this->konten,
+            'file_lampiran_url' => $this->lampiran ? asset('storage/' . $this->lampiran) : null,
             'prioritas' => $this->prioritas,
-            'expired_at' => $this->expired_at ? $this->expired_at->format('Y-m-d') : null,
+            'tanggal_terbit' => $this->tanggal_terbit ? $this->tanggal_terbit->format('Y-m-d') : null,
+            'tanggal_expired' => $this->tanggal_expired ? $this->tanggal_expired->format('Y-m-d') : null,
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : null,
         ];
     }

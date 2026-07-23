@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pengumuman extends Model
 {
-    //
+    protected $table = 'pengumuman';
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'expired_at' => 'date',
+    ];
 }

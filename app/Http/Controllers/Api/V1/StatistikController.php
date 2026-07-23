@@ -15,7 +15,7 @@ class StatistikController extends Controller
         $totalPenduduk = Penduduk::count();
         $lakiLaki = Penduduk::where('jenis_kelamin', 'L')->count();
         $perempuan = Penduduk::where('jenis_kelamin', 'P')->count();
-        $totalKk = Penduduk::distinct('no_kk')->count('no_kk');
+        $totalKk = Penduduk::distinct('nomor_kk')->count('nomor_kk');
 
         $byAgama = Penduduk::select('agama_id', DB::raw('count(*) as total'))
             ->with('agama')
