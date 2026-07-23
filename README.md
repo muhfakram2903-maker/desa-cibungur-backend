@@ -1,59 +1,224 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏛️ Website & Sistem Informasi Desa Cibungur - Backend REST API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Backend resmi **Sistem Informasi & Website Desa Cibungur, Kecamatan Parungponteng**, dibangun dengan **Laravel 12 (PHP 8.3+)** menggunakan prinsip *Clean Architecture* (MVC, Repository Pattern, Service Layer, dan REST API Resource).
 
-## About Laravel
+![Laravel 12](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP 8.3](https://img.shields.io/badge/PHP-8.3%2B-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0%2B-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Sanctum](https://img.shields.io/badge/Sanctum-API_Auth-red?style=for-the-badge)
+![Spatie RBAC](https://img.shields.io/badge/Spatie-Permissions-blue?style=for-the-badge)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🌟 Fitur Utama System
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 1. 🌐 Portal Informasi Publik & REST API V1
+- **Berita & Pengumuman:** Sistem penerbitan berita dengan SEO Slug, Kategori, Tag, View Counter, dan Lampiran PDF.
+- **Agenda & Galeri Desa:** Jadwal kegiatan masyarakat dan album media (foto/video) dengan Lightbox.
+- **Potensi & UMKM Desa:** Katalog usaha lokal lengkap dengan WhatsApp direct contact, lokasi Google Maps, dan link Marketplace.
+- **Transparansi APBDes:** Pendapatan, Belanja, dan Realisasi Anggaran Desa berbasis grafik visual.
+- **Statistik Demografi:** Agregasi jumlah penduduk, KK, jenis kelamin, agama, dan tingkat pendidikan.
 
-## Learning Laravel
+### 2. 📑 Layanan Pengaduan Masyarakat Digital
+- Pengajuan laporan oleh warga (Upload Foto & Video).
+- Penjanaan **Nomor Tiket Otomatis** (misal: `TKT-20260723-XXXX`).
+- Lacak status pengaduan publik tanpa login (`Menunggu`, `Diproses`, `Selesai`, `Ditolak`).
+- Timeline respon & dokumentasi hasil pengerjaan dari Admin Desa.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 3. 👥 Pengelolaan Data Penduduk (Admin)
+- Data NIK, KK, Dusun, RW, RT, Pekerjaan, Agama, Pendidikan, Status Kawin.
+- Tracking **Riwayat Perubahan Data Penduduk**.
+- Import & Export Data via Excel (`maatwebsite/excel`) & Cetak PDF (`barryvdh/laravel-dompdf`).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 4. 🛡️ Role-Based Access Control (Spatie RBAC)
+Sistem memiliki **9 Role Pengguna**:
+1. `Super Admin` (Akses Penuh Pengaturan Sistem)
+2. `Admin Desa` (Kelola Berita, Pengaduan, Penduduk, UMKM)
+3. `Kepala Desa` (Monitoring Dashboard & APBDes)
+4. `Sekretaris Desa` (Verifikasi & Laporan)
+5. `Kasi Pemerintahan` (Kelola Wilayah & Penduduk)
+6. `Operator` (Entry Data)
+7. `Ketua RW` (Akses Data Wilayah RW)
+8. `Ketua RT` (Akses Data Wilayah RT)
+9. `Masyarakat` (Pengajuan Laporan & Profil User)
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🧱 Arsitektur Sistem (Clean Architecture)
 
-### Premium Partners
+```
+[ Frontend Client / SPA ] ─── (REST API / JSON) ───► [ Laravel 12 API Route ]
+                                                              │
+                                                              ▼
+                                                    [ Form Request Validation ]
+                                                              │
+                                                              ▼
+                                                      [ Controller V1 ]
+                                                              │
+                                                              ▼
+                                                      [ Service Layer ]
+                                                              │
+                                                              ▼
+                                                    [ Repository Pattern ]
+                                                              │
+                                                              ▼
+                                                    [ Eloquent Models & DB ]
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## ⚙️ Persyaratan Sistem (System Requirements)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **PHP**: `^8.2` atau `^8.3` (Disarankan PHP 8.3 via XAMPP/Laragon)
+- **Database**: MySQL `^8.0` atau MariaDB `^10.4`
+- **Composer**: `^2.6`
+- **Extensions PHP**: `OpenSSL`, `PDO`, `Mbstring`, `Tokenizer`, `XML`, `Ctype`, `JSON`, `BCMath`, `GD`/`Imagick`.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🚀 Panduan Instalasi & Setup Local
 
-## Security Vulnerabilities
+### 1. Clone Repository & Install Dependencies
+```bash
+git clone https://github.com/muhfakram2903-maker/desa-cibungur-backend.git
+cd desa-cibungur-backend
+composer install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 2. Konfigurasi Environment (`.env`)
+Salin file `.env.example` menjadi `.env`:
+```bash
+cp .env.example .env
+```
+Sesuaikan konfigurasi database MySQL di file `.env`:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=desa_cibungur
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## License
+### 3. Generate Application Key
+```bash
+php artisan key:generate
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 4. Migration & Database Seeding
+Jalankan migrasi tabel dan isi data awal (*roles, permissions, admin users, dummy data*):
+```bash
+php artisan migrate --seed
+```
+
+### 5. Buat Storage Symlink
+Buat link folder publik agar gambar & file ter-serve dengan benar:
+```bash
+php artisan storage:link
+```
+
+### 6. Jalankan Local Server
+```bash
+php artisan serve
+```
+Backend berjalan di: `http://127.0.0.1:8000`
+
+---
+
+## 🔑 Kredensial Default (Development Account)
+
+Seluruh akun default memiliki password: **`password`**
+
+| Role | Email Login | Password | Akses |
+| :--- | :--- | :---: | :--- |
+| **Super Admin** | `superadmin@desa-cibungur.id` | `password` | Akses Penuh Sistem |
+| **Admin Desa** | `admin@desa-cibungur.id` | `password` | Management Konten & Penduduk |
+| **Kepala Desa** | `kades@desa-cibungur.id` | `password` | Dashboard & Laporan |
+| **Operator** | `operator@desa-cibungur.id` | `password` | Entry Data & Pelayanan |
+
+---
+
+## 📡 Dokumentasi Endpoint REST API V1
+
+Base URL API: `http://127.0.0.1:8000/api/v1`
+
+### 🟢 Endpoint Publik (Tanpa Auth)
+
+| Method | Endpoint | Deskripsi |
+| :--- | :--- | :--- |
+| `GET` | `/public/berita` | List Berita Desa (Query: `search`, `kategori`, `per_page`) |
+| `GET` | `/public/berita/{slug}` | Detail Berita berdasarkan slug |
+| `GET` | `/public/agenda` | List Agenda Kegiatan Desa |
+| `GET` | `/public/pengumuman` | List Pengumuman Aktif |
+| `GET` | `/public/galeri` | Album Galeri Foto & Video |
+| `GET` | `/public/galeri/{slug}` | Detail Media dalam Album |
+| `GET` | `/public/umkm` | Katalog Produk UMKM Desa |
+| `GET` | `/public/umkm/{slug}` | Detail Produk UMKM |
+| `GET` | `/public/statistik` | Data Demografi Penduduk & APBDes (Visualisasi Chart) |
+| `GET` | `/public/pengaduan/track/{tiket}` | Lacak status tiket pengaduan publik |
+
+### 🔵 Endpoint Autentikasi (`/auth`)
+
+| Method | Endpoint | Deskripsi | Header / Auth |
+| :--- | :--- | :--- | :---: |
+| `POST` | `/auth/login` | Login user & dapatkan Bearer Token | Public |
+| `POST` | `/auth/register` | Pendaftaran akun warga | Public |
+| `POST` | `/auth/logout` | Revoke Sanctum Token | `Bearer Token` |
+| `GET` | `/auth/me` | Dapatkan data profil user login & roles | `Bearer Token` |
+| `POST` | `/auth/change-password` | Ganti password user | `Bearer Token` |
+
+### 🔴 Endpoint Pengaduan & User (`Protected`)
+
+| Method | Endpoint | Deskripsi | Header / Auth |
+| :--- | :--- | :--- | :---: |
+| `GET` | `/pengaduan` | List riwayat pengaduan milik user | `Bearer Token` |
+| `POST` | `/pengaduan` | Submit laporan pengaduan baru (+Foto/Video) | `Bearer Token` |
+| `GET` | `/pengaduan/{id}` | Detail laporan pengaduan & respon admin | `Bearer Token` |
+
+---
+
+## 📂 Struktur Folder Utama Project
+
+```
+desa-cibungur-backend/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Admin/             # Controller Dashboard Admin (Blade)
+│   │   │   ├── Api/V1/            # Controller REST API v1
+│   │   │   └── Public/            # Controller Halaman Publik (Blade)
+│   │   ├── Requests/              # Form Request Validation
+│   │   └── Resources/             # Eloquent API JSON Resources
+│   ├── Models/                    # Eloquent Models (33 Models)
+│   ├── Repositories/              # Repository Pattern Layer
+│   └── Services/                  # Business Logic & Service Layer
+├── bootstrap/
+│   └── app.php                    # Laravel 11/12 Route Loader & Middleware
+├── config/
+│   ├── cors.php                   # Konfigurasi CORS Header
+│   ├── sanctum.php                # Konfigurasi Token Sanctum
+│   └── permission.php             # Spatie Permission Config
+├── database/
+│   ├── migrations/                # 16 File Migrasi Database
+│   └── seeders/                   # Seeder Roles, User, Wilayah, & Content
+├── routes/
+│   ├── api.php                    # Endpoint REST API v1
+│   ├── web.php                    # Route Publik Blade & Admin Load
+│   └── admin.php                  # Route Admin Dashboard
+└── storage/
+    └── app/public/                # Storage File Uploads
+```
+
+---
+
+## 🧪 Jalankan Automated Testing
+
+Untuk menguji seluruh endpoint REST API dan koneksi database:
+```bash
+php artisan test
+```
+
+---
+
+## 📄 Lisensi
+Sistem Informasi Desa Cibungur dikembangkan untuk **Pemerintah Desa Cibungur, Kecamatan Parungponteng**. Lisensi di bawah [MIT License](LICENSE).
